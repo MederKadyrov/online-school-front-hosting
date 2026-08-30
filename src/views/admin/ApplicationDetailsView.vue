@@ -1,7 +1,7 @@
 <template>
   <div class="application-details" v-if="application">
     <div class="page-header">
-      <button @click="goBack" class="btn-back">← {{ $t("back") }}</button>
+      <button @click="goBack" class="btn-back"><ArrowLeft :size="16" /> {{ $t("back") }}</button>
       <h1>{{ $t("applicationDetails") }}</h1>
       <span :class="['status-badge-large', application.status]">
         {{ $t(`applicationStatus.${application.status}`) }}
@@ -127,15 +127,15 @@
             :key="key"
             class="document-item"
           >
-            <div class="document-icon">📄</div>
+            <FileText class="document-icon" :size="28" />
             <div class="document-info">
               <strong>{{ $t(`documentTypes.${key}`) }}</strong>
               <div class="document-actions">
                 <button @click="viewDocument(String(key))" class="btn-view-doc">
-                  👁️ {{ $t("view") }}
+                  <Eye :size="16" /> {{ $t("view") }}
                 </button>
                 <button @click="downloadDocument(String(key))" class="btn-download">
-                  ⬇️ {{ $t("download") }}
+                  <Download :size="16" /> {{ $t("download") }}
                 </button>
               </div>
             </div>
@@ -191,16 +191,16 @@
             @click="showApproveModal = true"
             class="btn-action btn-approve"
           >
-            ✓ {{ $t("approveApplication") }}
+            <Check :size="16" /> {{ $t("approveApplication") }}
           </button>
           <button
             @click="showRevisionModal = true"
             class="btn-action btn-revision"
           >
-            ↻ {{ $t("requestRevision") }}
+            <RefreshCw :size="16" /> {{ $t("requestRevision") }}
           </button>
           <button @click="showRejectModal = true" class="btn-action btn-reject">
-            ✗ {{ $t("rejectApplication") }}
+            <X :size="16" /> {{ $t("rejectApplication") }}
           </button>
         </div>
       </div>
@@ -304,7 +304,7 @@
       <div class="modal modal-document">
         <div class="modal-header">
           <h3>{{ $t(`documentTypes.${currentDocumentKey}`) }}</h3>
-          <button @click="closeDocumentModal" class="btn-close">✕</button>
+          <button @click="closeDocumentModal" class="btn-close"><X :size="18" /></button>
         </div>
         <div class="document-preview">
           <iframe :src="documentPreviewUrl" frameborder="0"></iframe>
@@ -314,7 +314,7 @@
             @click="downloadDocument(currentDocumentKey)"
             class="btn-confirm"
           >
-            ⬇️ {{ $t("download") }}
+            <Download :size="16" /> {{ $t("download") }}
           </button>
           <button @click="closeDocumentModal" class="btn-cancel">
             {{ $t("close") }}
@@ -329,6 +329,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { ArrowLeft, FileText, Eye, Download, Check, RefreshCw, X } from "lucide-vue-next";
 import api from "../../utils/api";
 
 const { t } = useI18n();

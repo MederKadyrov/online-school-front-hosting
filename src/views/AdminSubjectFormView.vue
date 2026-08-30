@@ -30,7 +30,7 @@
       </div>
 
       <div class="actions">
-        <router-link class="btn" to="/admin/subjects">← {{ $t('subjects.backButton') }}</router-link>
+        <router-link class="btn" to="/admin/subjects"><ArrowLeft :size="16" /> {{ $t('subjects.backButton') }}</router-link>
         <button class="btn primary" type="submit" :disabled="saving">
           {{ saving ? $t('subjects.saving') : (isEdit ? $t('subjects.saveButton') : $t('subjects.createButton')) }}
         </button>
@@ -46,6 +46,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

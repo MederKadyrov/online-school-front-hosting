@@ -1,7 +1,7 @@
 <template>
   <div class="profile-view">
     <div class="page-header">
-      <h1>👤 {{ $t('studentProfile.title') }}</h1>
+      <h1><User :size="24" /> {{ $t('studentProfile.title') }}</h1>
       <p class="subtitle">{{ $t('studentProfile.subtitle') }}</p>
     </div>
 
@@ -11,7 +11,7 @@
     </div>
 
     <div v-else-if="error" class="error-message">
-      <span class="error-icon">⚠️</span>
+      <AlertTriangle class="error-icon" :size="24" />
       <p>{{ error }}</p>
       <button @click="fetchProfile" class="btn-retry">{{ $t('studentProfile.tryAgain') }}</button>
     </div>
@@ -24,21 +24,21 @@
           :class="{ active: activeTab === 'profile' }"
           @click="activeTab = 'profile'"
         >
-          📋 {{ $t('studentProfile.tabProfile') }}
+          <ClipboardList :size="16" /> {{ $t('studentProfile.tabProfile') }}
         </button>
         <button
           class="tab-button"
           :class="{ active: activeTab === 'documents' }"
           @click="activeTab = 'documents'"
         >
-          📄 {{ $t('studentProfile.tabDocuments') }}
+          <FileText :size="16" /> {{ $t('studentProfile.tabDocuments') }}
         </button>
         <button
           class="tab-button"
           :class="{ active: activeTab === 'password' }"
           @click="activeTab = 'password'"
         >
-          🔒 {{ $t('studentProfile.tabPassword') }}
+          <Lock :size="16" /> {{ $t('studentProfile.tabPassword') }}
         </button>
       </div>
 
@@ -47,7 +47,7 @@
         <!-- Личная информация -->
         <div class="profile-card">
           <div class="card-header">
-            <h2>📋 {{ $t('studentProfile.personalInfo') }}</h2>
+            <h2><ClipboardList :size="18" /> {{ $t('studentProfile.personalInfo') }}</h2>
           </div>
           <div class="card-body">
             <div class="info-grid">
@@ -95,7 +95,7 @@
         <!-- Информация о классе -->
         <div v-if="profile.group" class="profile-card">
           <div class="card-header">
-            <h2>🏫 {{ $t('studentProfile.classInfo') }}</h2>
+            <h2><School :size="18" /> {{ $t('studentProfile.classInfo') }}</h2>
           </div>
           <div class="card-body">
             <div class="info-grid">
@@ -120,13 +120,13 @@
       <div v-if="activeTab === 'documents'" class="tab-content">
         <div class="profile-card">
           <div class="card-header">
-            <h2>📄 {{ $t('studentProfile.studentDocuments') }}</h2>
+            <h2><FileText :size="18" /> {{ $t('studentProfile.studentDocuments') }}</h2>
           </div>
           <div class="card-body">
             <div v-if="profile.documents && profile.documents.length > 0">
               <div class="documents-list">
                 <div v-for="doc in profile.documents" :key="doc.id" class="document-item">
-                  <div class="document-icon">📎</div>
+                  <Paperclip class="document-icon" :size="20" />
                   <div class="document-info">
                     <div class="document-name">{{ doc.name }}</div>
                     <div class="document-meta">
@@ -141,13 +141,13 @@
                     class="btn-download"
                     :title="$t('studentProfile.download')"
                   >
-                    📥
+                    <Download :size="16" />
                   </a>
                 </div>
               </div>
             </div>
             <div v-else class="empty-state">
-              <span class="empty-icon">📭</span>
+              <Inbox class="empty-icon" :size="40" />
               <p>{{ $t('studentProfile.noDocuments') }}</p>
             </div>
           </div>
@@ -158,7 +158,7 @@
       <div v-if="activeTab === 'password'" class="tab-content">
         <div class="profile-card">
           <div class="card-header">
-            <h2>🔒 {{ $t('studentProfile.changePassword') }}</h2>
+            <h2><Lock :size="18" /> {{ $t('studentProfile.changePassword') }}</h2>
           </div>
           <div class="card-body">
             <form @submit.prevent="changePassword" class="password-form">
@@ -220,6 +220,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { User, AlertTriangle, ClipboardList, FileText, Lock, School, Paperclip, Download, Inbox } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

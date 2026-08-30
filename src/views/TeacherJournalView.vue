@@ -35,7 +35,7 @@
       </div>
 
       <button @click="exportJournal" :disabled="!journalData.students?.length" class="export-btn">
-        📄 {{ $t('teacherJournal.export') }}
+        <FileText :size="16" /> {{ $t('teacherJournal.export') }}
       </button>
     </div>
 
@@ -353,6 +353,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { FileText } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

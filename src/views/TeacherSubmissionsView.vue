@@ -89,7 +89,7 @@
             <td>{{ s.grade_5 ?? '—' }}</td>
             <td class="actions-cell">
               <button class="btn xs" @click="openGradeModal(s)" :title="$t('teacherSubmissions.review')">
-                ✏️
+                <Pencil :size="16" />
               </button>
               <a
                 v-if="s.file_path"
@@ -98,7 +98,7 @@
                 class="btn xs"
                 :title="$t('teacherSubmissions.downloadFile')"
               >
-                📎
+                <Paperclip :size="16" />
               </a>
             </td>
           </tr>
@@ -128,7 +128,7 @@
         <div v-if="gradeModal.submission?.file_path" class="file-download">
           <label>{{ $t('teacherSubmissions.file') }}:</label>
           <a :href="storageUrl(gradeModal.submission.file_path)" target="_blank" class="btn">
-            📎 {{ $t('teacherSubmissions.downloadFile') }}
+            <Paperclip :size="16" /> {{ $t('teacherSubmissions.downloadFile') }}
           </a>
         </div>
 
@@ -171,6 +171,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Pencil, Paperclip } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

@@ -32,7 +32,7 @@
       </select>
 
       <button @click="exportStudents" class="export-btn" :disabled="!allStudents || allStudents.length === 0">
-        📄 {{ $t("students.exportCsv") }}
+        <FileText :size="16" /> {{ $t("students.exportCsv") }}
       </button>
     </div>
 
@@ -187,6 +187,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { FileText } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

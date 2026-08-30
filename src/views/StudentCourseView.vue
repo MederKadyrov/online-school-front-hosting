@@ -31,7 +31,7 @@
             <div class="module-progress-section">
               <span class="module-progress-text">{{ getModuleProgress(m) }}%</span>
               <button class="toggle-btn" :class="{ open: isModuleOpen(m.id) }">
-                ▼
+                <ChevronDown :size="16" />
               </button>
             </div>
           </div>
@@ -54,12 +54,12 @@
                       class="paragraph-link"
                       :class="getParagraphStatusClass(p.id)"
                     >
-                      <span class="paragraph-status-icon">{{ getParagraphStatusIcon(p.id) }}</span>
+                      <component :is="getParagraphStatusIcon(p.id)" class="paragraph-status-icon" :size="16" />
                       <span class="paragraph-text">
                         {{ ch.number }}.{{ p.number }} — {{ p.title }}
                         <span v-if="p.description" class="paragraph-desc"> — {{ p.description }}</span>
                       </span>
-                      <span v-if="hasDeadlineSoon(p.id)" class="deadline-badge">⏰</span>
+                      <AlarmClock v-if="hasDeadlineSoon(p.id)" class="deadline-badge" :size="14" />
                     </RouterLink>
                   </li>
                 </ul>
@@ -79,6 +79,7 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { CheckCircle2, CircleDot, AlarmClock, ChevronDown, type LucideIcon } from 'lucide-vue-next'
 import api from '../utils/api'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
 
@@ -111,7 +112,7 @@ async function load() {
     if (data && data.title) {
       setBreadcrumb(route.path, {
         label: data.title,
-        icon: '📖'
+        icon: 'journal'
       })
     }
 
@@ -152,11 +153,11 @@ function getParagraphStatus(paragraphId: number): string {
   return p ? p.status : 'not_started'
 }
 
-function getParagraphStatusIcon(paragraphId: number): string {
+function getParagraphStatusIcon(paragraphId: number): LucideIcon | null {
   const status = getParagraphStatus(paragraphId)
-  if (status === 'completed') return '✅'
-  if (status === 'in_progress') return '🟡'
-  return ''
+  if (status === 'completed') return CheckCircle2
+  if (status === 'in_progress') return CircleDot
+  return null
 }
 
 function getParagraphStatusClass(paragraphId: number): string {

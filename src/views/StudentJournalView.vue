@@ -32,14 +32,14 @@
     <!-- Статистика -->
     <div v-if="journalData.total_grades !== undefined" class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon">📈</div>
+        <TrendingUp class="stat-icon" :size="24" />
         <div class="stat-content">
           <span class="stat-label">{{ $t('studentJournal.totalGrades') }}</span>
           <strong class="stat-value">{{ journalData.total_grades }}</strong>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">⭐</div>
+        <Star class="stat-icon" :size="24" />
         <div class="stat-content">
           <span class="stat-label">{{ $t('studentJournal.averageScore') }}</span>
           <strong class="stat-value" :class="getAverageClass(journalData.average)">
@@ -172,13 +172,13 @@
     </div>
 
     <div v-else-if="filters.course_id" class="empty-state">
-      <div class="empty-icon">📭</div>
+      <Inbox class="empty-icon" :size="48" />
       <h3>{{ $t('studentJournal.noGrades') }}</h3>
       <p>{{ $t('studentJournal.noGradesMessage') }}</p>
     </div>
 
     <div v-else class="empty-state">
-      <div class="empty-icon">📚</div>
+      <BookOpen class="empty-icon" :size="48" />
       <h3>{{ $t('studentJournal.selectCourseTitle') }}</h3>
       <p>{{ $t('studentJournal.selectCourseMessage') }}</p>
     </div>
@@ -223,6 +223,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { TrendingUp, Star, Inbox, BookOpen } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

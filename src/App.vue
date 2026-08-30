@@ -42,7 +42,7 @@
               :title="item.label"
               @click="closeSidebarOnMobile"
             >
-              <span class="nav-icon">{{ item.icon }}</span>
+              <component :is="getIcon(item.icon)" class="nav-icon" :size="20" />
               <span class="nav-label" v-if="!sidebarCollapsed">{{ item.label }}</span>
             </RouterLink>
           </nav>
@@ -50,8 +50,8 @@
           <!-- Collapse button (desktop only) -->
           <div class="sidebar-footer">
             <button @click="toggleCollapse" class="btn-collapse" :title="sidebarCollapsed ? t('common.expand') : t('common.collapse')">
-              <span v-if="sidebarCollapsed">→</span>
-              <span v-else>←</span>
+              <ArrowRight v-if="sidebarCollapsed" :size="18" />
+              <ArrowLeft v-else :size="18" />
             </button>
           </div>
         </div>
@@ -81,6 +81,8 @@ import { useI18n } from 'vue-i18n'
 import AppBreadcrumbs from './components/AppBreadcrumbs.vue'
 import AppHeader from './components/AppHeader.vue'
 import api from './utils/api'
+import { getIcon } from './utils/icons'
+import { ArrowRight, ArrowLeft } from 'lucide-vue-next'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -115,33 +117,33 @@ const menuItems = computed(() => {
 
   if (role === 'admin') {
     return [
-      { path: '/admin/groups', icon: '🏫', label: t('menu.admin.groups') },
-      { path: '/admin/students', icon: '👨‍🎓', label: t('menu.admin.students') },
-      { path: '/admin/applications', icon: '📋', label: t('menu.admin.applications') },
-      { path: '/admin/teachers', icon: '👨‍🏫', label: t('menu.admin.teachers') },
-      { path: '/admin/courses', icon: '📚', label: t('menu.admin.courses') },
-      { path: '/admin/subjects', icon: '📚', label: t('menu.admin.subjects') },
-      { path: '/admin/submissions', icon: '✏️', label: t('menu.admin.submissions') },
-      { path: '/admin/journal', icon: '📖', label: t('menu.admin.journal') },
-      { path: '/admin/user-passwords', icon: '🔑', label: t('menu.admin.passwords') },
+      { path: '/admin/groups', icon: 'school', label: t('menu.admin.groups') },
+      { path: '/admin/students', icon: 'student', label: t('menu.admin.students') },
+      { path: '/admin/applications', icon: 'applications', label: t('menu.admin.applications') },
+      { path: '/admin/teachers', icon: 'teacher', label: t('menu.admin.teachers') },
+      { path: '/admin/courses', icon: 'course', label: t('menu.admin.courses') },
+      { path: '/admin/subjects', icon: 'course', label: t('menu.admin.subjects') },
+      { path: '/admin/submissions', icon: 'edit', label: t('menu.admin.submissions') },
+      { path: '/admin/journal', icon: 'journal', label: t('menu.admin.journal') },
+      { path: '/admin/user-passwords', icon: 'password', label: t('menu.admin.passwords') },
     ]
   }
 
   if (role === 'teacher') {
     return [
-      { path: '/teacher/courses', icon: '📚', label: t('menu.teacher.courses') },
-      { path: '/teacher/submissions', icon: '✏️', label: t('menu.teacher.submissions') },
-      { path: '/teacher/journal', icon: '📖', label: t('menu.teacher.journal') },
-      { path: '/teacher/profile', icon: '👤', label: t('menu.teacher.profile') },
+      { path: '/teacher/courses', icon: 'course', label: t('menu.teacher.courses') },
+      { path: '/teacher/submissions', icon: 'edit', label: t('menu.teacher.submissions') },
+      { path: '/teacher/journal', icon: 'journal', label: t('menu.teacher.journal') },
+      { path: '/teacher/profile', icon: 'profile', label: t('menu.teacher.profile') },
     ]
   }
 
   if (role === 'student') {
     return [
-      { path: '/student/courses', icon: '📚', label: t('menu.student.courses') },
-      { path: '/student/assignments', icon: '📝', label: t('menu.student.assignments') },
-      { path: '/student/journal', icon: '📊', label: t('menu.student.journal') },
-      { path: '/student/profile', icon: '👤', label: t('menu.student.profile') },
+      { path: '/student/courses', icon: 'course', label: t('menu.student.courses') },
+      { path: '/student/assignments', icon: 'assignment', label: t('menu.student.assignments') },
+      { path: '/student/journal', icon: 'stats', label: t('menu.student.journal') },
+      { path: '/student/profile', icon: 'profile', label: t('menu.student.profile') },
     ]
   }
 
@@ -385,9 +387,7 @@ body {
 }
 
 .nav-icon {
-  font-size: 20px;
   width: 24px;
-  text-align: center;
   flex-shrink: 0;
 }
 

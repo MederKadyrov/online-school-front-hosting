@@ -4,8 +4,8 @@
     <div class="paragraph-header">
       <h1>{{ paragraph?.title || $t('studentParagraph.paragraph') }}</h1>
       <p v-if="paragraph?.chapter" class="paragraph-path">
-        {{ paragraph.chapter?.module?.course?.title }} →
-        {{ $t('studentParagraph.module') }} {{ paragraph.chapter?.module?.number }} →
+        {{ paragraph.chapter?.module?.course?.title }} <ArrowRight :size="14" />
+        {{ $t('studentParagraph.module') }} {{ paragraph.chapter?.module?.number }} <ArrowRight :size="14" />
         {{ $t('studentParagraph.chapter') }} {{ paragraph.chapter?.number }}
       </p>
     </div>
@@ -50,14 +50,14 @@
                 </template>
 
                 <span v-if="r.duration_sec" class="resource-duration">
-                  ⏱️ {{ formatDuration(r.duration_sec) }}
+                  <Timer :size="14" /> {{ formatDuration(r.duration_sec) }}
                 </span>
               </div>
             </div>
           </div>
 
           <div v-else class="empty-state">
-            <span class="empty-icon">📭</span>
+            <Inbox class="empty-icon" :size="40" />
             <p>{{ $t('studentParagraph.noMaterials') }}</p>
           </div>
         </div>
@@ -79,19 +79,19 @@
 
             <div class="quiz-info">
               <div class="info-item">
-                <span class="info-icon">⏱️</span>
+                <Timer class="info-icon" :size="16" />
                 <span class="info-label">{{ $t('studentParagraph.time') }}</span>
                 <span class="info-value">{{ quiz.time_limit_sec ? formatDuration(quiz.time_limit_sec) : $t('studentParagraph.unlimited') }}</span>
               </div>
               <div class="info-item">
-                <span class="info-icon">🔄</span>
+                <RefreshCw class="info-icon" :size="16" />
                 <span class="info-label">{{ $t('studentParagraph.attempts') }}</span>
                 <span class="info-value">{{ quiz.max_attempts || $t('studentParagraph.unlimited') }}</span>
               </div>
             </div>
 
             <div v-if="isQuizExpired" class="expired-notice">
-              <span class="expired-icon">⏰</span>
+              <AlarmClock class="expired-icon" :size="16" />
               <p>{{ $t('studentParagraph.quizExpired') }}</p>
             </div>
 
@@ -107,7 +107,7 @@
           </div>
 
           <div v-else class="empty-state">
-            <span class="empty-icon">📝</span>
+            <NotebookPen class="empty-icon" :size="40" />
             <p>{{ $t('studentParagraph.noQuiz') }}</p>
           </div>
         </div>
@@ -127,7 +127,7 @@
 
             <!-- Файл-условие задания -->
             <div v-if="asg.attachments_path" class="attachment-info">
-              <span class="attachment-icon">📎</span>
+              <Paperclip class="attachment-icon" :size="16" />
               <a :href="storageUrl(asg.attachments_path)" target="_blank" rel="noopener" class="attachment-link">
                 {{ asg.attachments_path.split('/').pop() }}
               </a>
@@ -135,7 +135,7 @@
 
             <div class="assignment-meta">
               <div class="meta-item" :class="{ 'meta-expired': isAssignmentExpired }">
-                <span class="meta-icon">📅</span>
+                <Calendar class="meta-icon" :size="14" />
                 <span class="meta-label">{{ $t('studentParagraph.deadline') }}</span>
                 <span class="meta-value">{{ formatDate(asg.due_at) || $t('studentParagraph.notSpecified') }}</span>
                 <span v-if="isAssignmentExpired" class="expired-badge">{{ $t('studentParagraph.expired') }}</span>
@@ -161,7 +161,7 @@
 
             <!-- Уведомление об истекшем дедлайне -->
             <div v-if="isAssignmentExpired && !my" class="expired-notice-large">
-              <span class="expired-icon-large">⏰</span>
+              <AlarmClock class="expired-icon-large" :size="32" />
               <h4>{{ $t('studentParagraph.assignmentExpiredTitle') }}</h4>
               <p>{{ $t('studentParagraph.assignmentExpiredMessage') }}</p>
             </div>
@@ -193,7 +193,7 @@
                     class="file-input"
                   />
                   <label for="file-input" class="file-input-label">
-                    <span class="file-icon">📎</span>
+                    <Paperclip class="file-icon" :size="16" />
                     <span>{{ answer.file ? answer.file.name : $t('studentParagraph.selectFile') }}</span>
                   </label>
                 </div>
@@ -214,7 +214,7 @@
           </div>
 
           <div v-else class="empty-state">
-            <span class="empty-icon">📄</span>
+            <FileText class="empty-icon" :size="40" />
             <p>{{ $t('studentParagraph.noAssignments') }}</p>
           </div>
         </div>
@@ -228,6 +228,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { Timer, RefreshCw, AlarmClock, Inbox, FileText, Paperclip, Calendar, NotebookPen, ArrowRight } from 'lucide-vue-next'
 import api from '../utils/api'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
 
@@ -334,14 +335,14 @@ async function load() {
       if (courseId) {
         setBreadcrumb(`/student/courses/${courseId}`, {
           label: courseTitle,
-          icon: '📖',
+          icon: 'journal',
           path: `/student/courses/${courseId}`
         })
       }
 
       setBreadcrumb(route.path, {
         label: paragraphTitle,
-        icon: '📄',
+        icon: 'paragraph',
         path: route.path
       })
     }

@@ -32,7 +32,7 @@
     </div>
 
     <div v-else-if="assignments.length === 0" class="no-data">
-      <div class="no-data-icon">📋</div>
+      <ClipboardList class="no-data-icon" :size="48" />
       <p>{{ $t('studentAssignments.noAssignments') }}</p>
     </div>
 
@@ -46,7 +46,9 @@
         <div class="card-header">
           <div class="title-with-badge">
             <span class="type-badge" :class="assignment.type === 'quiz' ? 'type-quiz' : 'type-assignment'">
-              {{ assignment.type === 'quiz' ? '🧪 ' + $t('studentAssignments.quiz') : '📝 ' + $t('studentAssignments.assignment') }}
+              <FlaskConical v-if="assignment.type === 'quiz'" :size="14" />
+              <NotebookPen v-else :size="14" />
+              {{ assignment.type === 'quiz' ? $t('studentAssignments.quiz') : $t('studentAssignments.assignment') }}
             </span>
             <h3 class="assignment-title">{{ assignment.title }}</h3>
           </div>
@@ -58,9 +60,9 @@
         <div class="card-body">
           <div class="course-info">
             <span class="course-name">{{ assignment.course_title }}</span>
-            <span class="breadcrumb-separator">→</span>
+            <ArrowRight class="breadcrumb-separator" :size="14" />
             <span class="module-name">{{ assignment.module_title }}</span>
-            <span class="breadcrumb-separator">→</span>
+            <ArrowRight class="breadcrumb-separator" :size="14" />
             <span class="chapter-name">{{ assignment.chapter_title }}</span>
           </div>
 
@@ -88,7 +90,11 @@
             class="btn-action"
             @click="handleAssignmentClick(assignment)"
           >
-            <span class="btn-icon">{{ assignment.submission_status === 'graded' ? '👁️' : (assignment.type === 'quiz' ? '🧪' : '✏️') }}</span>
+            <span class="btn-icon">
+              <Eye v-if="assignment.submission_status === 'graded'" :size="16" />
+              <FlaskConical v-else-if="assignment.type === 'quiz'" :size="16" />
+              <Pencil v-else :size="16" />
+            </span>
             <span class="btn-text">
               {{ assignment.submission_status === 'graded'
                 ? $t('studentAssignments.view')
@@ -104,7 +110,7 @@
     <div v-if="showDeadlineModal" class="modal-overlay" @click="closeDeadlineModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <div class="modal-icon warning">⚠️</div>
+          <AlertTriangle class="modal-icon warning" :size="32" />
           <h3>{{ $t('studentAssignments.deadlineExpiredTitle') }}</h3>
         </div>
         <div class="modal-body">
@@ -124,6 +130,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { ClipboardList, FlaskConical, NotebookPen, ArrowRight, Eye, Pencil, AlertTriangle } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const router = useRouter()

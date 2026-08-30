@@ -6,7 +6,7 @@
       <!-- Header -->
       <div class="course-header">
         <div class="breadcrumb">
-          <RouterLink to="/admin/courses">← {{ $t('courseDetail.backToCourses') }}</RouterLink>
+          <RouterLink to="/admin/courses"><ArrowLeft :size="16" /> {{ $t('courseDetail.backToCourses') }}</RouterLink>
         </div>
         <h1>{{ course.title }}</h1>
         <div class="course-meta">
@@ -51,7 +51,8 @@
             </div>
             <div class="module-stats">
               <span class="stat">{{ $t('courseDetail.chaptersCount', { count: module.chapters.length }) }}</span>
-              <span class="toggle-icon">{{ expandedModules.has(module.id) ? '▼' : '►' }}</span>
+              <ChevronDown v-if="expandedModules.has(module.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
             </div>
           </div>
 
@@ -65,7 +66,8 @@
                 </div>
                 <div class="chapter-stats">
                   <span class="stat">{{ $t('courseDetail.paragraphsCount', { count: chapter.paragraphs.length }) }}</span>
-                  <span class="toggle-icon">{{ expandedChapters.has(chapter.id) ? '▼' : '►' }}</span>
+                  <ChevronDown v-if="expandedChapters.has(chapter.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
                 </div>
               </div>
 
@@ -81,7 +83,8 @@
                       <span v-if="paragraph.has_assignment" class="badge badge-assignment">{{ $t('courseDetail.assignment') }}</span>
                       <span v-if="paragraph.has_quiz" class="badge badge-quiz">{{ $t('courseDetail.quiz') }}</span>
                       <span v-if="paragraph.resources_count > 0" class="badge badge-resources">{{ $t('courseDetail.resourcesCount', { count: paragraph.resources_count }) }}</span>
-                      <span class="toggle-icon">{{ expandedParagraphs.has(paragraph.id) ? '▼' : '►' }}</span>
+                      <ChevronDown v-if="expandedParagraphs.has(paragraph.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
                     </div>
                   </div>
 
@@ -95,12 +98,13 @@
                     <!-- Resources -->
                     <div v-if="paragraph.resources && paragraph.resources.length > 0" class="resources-section">
                       <div class="collapsible-header" @click="toggleResources(paragraph.id)">
-                        <h5>📎 {{ $t('courseDetail.resources', { count: paragraph.resources.length }) }}</h5>
-                        <span class="toggle-icon">{{ expandedResources.has(paragraph.id) ? '▼' : '►' }}</span>
+                        <h5><Paperclip :size="16" /> {{ $t('courseDetail.resources', { count: paragraph.resources.length }) }}</h5>
+                        <ChevronDown v-if="expandedResources.has(paragraph.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
                       </div>
                       <div v-show="expandedResources.has(paragraph.id)" class="resources-list">
                         <div v-for="resource in paragraph.resources" :key="resource.id" class="resource-item">
-                          <span class="resource-icon">{{ getResourceIcon(resource.type) }}</span>
+                          <component :is="getResourceIcon(resource.type)" class="resource-icon" :size="18" />
                           <div class="resource-info">
                             <div class="resource-title">{{ resource.title }}</div>
                             <div class="resource-meta">
@@ -116,8 +120,9 @@
                     <!-- Assignment -->
                     <div v-if="paragraph.assignment" class="assignment-section">
                       <div class="collapsible-header" @click="toggleAssignment(paragraph.assignment.id)">
-                        <h5>📝 {{ $t('courseDetail.assignment') }}: {{ paragraph.assignment.title }}</h5>
-                        <span class="toggle-icon">{{ expandedAssignments.has(paragraph.assignment.id) ? '▼' : '►' }}</span>
+                        <h5><NotebookPen :size="16" /> {{ $t('courseDetail.assignment') }}: {{ paragraph.assignment.title }}</h5>
+                        <ChevronDown v-if="expandedAssignments.has(paragraph.assignment.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
                       </div>
                       <div v-show="expandedAssignments.has(paragraph.assignment.id)" class="assignment-details">
                         <div v-if="paragraph.assignment.instructions" class="assignment-instructions">
@@ -127,9 +132,9 @@
 
                         <!-- Assignment Attachments -->
                         <div v-if="paragraph.assignment.has_attachments" class="assignment-attachments">
-                          <strong>📎 {{ $t('courseDetail.attachedFiles') }}:</strong>
+                          <strong><Paperclip :size="14" /> {{ $t('courseDetail.attachedFiles') }}:</strong>
                           <div class="attachment-item">
-                            <span class="attachment-icon">📄</span>
+                            <FileText class="attachment-icon" :size="16" />
                             <span class="attachment-path">{{ paragraph.assignment.attachments_path }}</span>
                           </div>
                         </div>
@@ -154,8 +159,9 @@
                     <!-- Quiz -->
                     <div v-if="paragraph.quiz" class="quiz-section">
                       <div class="collapsible-header" @click="toggleQuiz(paragraph.quiz.id)">
-                        <h5>🧪 {{ $t('courseDetail.quiz') }}: {{ paragraph.quiz.title }}</h5>
-                        <span class="toggle-icon">{{ expandedQuizzes.has(paragraph.quiz.id) ? '▼' : '►' }}</span>
+                        <h5><FlaskConical :size="16" /> {{ $t('courseDetail.quiz') }}: {{ paragraph.quiz.title }}</h5>
+                        <ChevronDown v-if="expandedQuizzes.has(paragraph.quiz.id)" class="toggle-icon" :size="14" />
+                        <ChevronRight v-else class="toggle-icon" :size="14" />
                       </div>
                       <div v-show="expandedQuizzes.has(paragraph.quiz.id)" class="quiz-details">
                         <div v-if="paragraph.quiz.instructions" class="quiz-instructions">
@@ -198,7 +204,8 @@
                             <div v-if="question.options && question.options.length > 0" class="question-options">
                               <div v-for="option in question.options" :key="option.id" class="option-item">
                                 <span class="option-check" :class="{ 'correct': option.is_correct, 'incorrect': !option.is_correct }">
-                                  {{ option.is_correct ? '✓' : '✗' }}
+                                  <Check v-if="option.is_correct" :size="14" />
+                                  <X v-else :size="14" />
                                 </span>
                                 <span class="option-text">{{ option.text }}</span>
                               </div>
@@ -222,6 +229,24 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import {
+  ArrowLeft,
+  ChevronDown,
+  ChevronRight,
+  Paperclip,
+  NotebookPen,
+  FlaskConical,
+  Check,
+  X,
+  Video,
+  FileText,
+  Link as LinkIcon,
+  Image,
+  Music,
+  File,
+  BarChart3,
+  type LucideIcon,
+} from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()
@@ -391,18 +416,18 @@ function getStatusLabel(status: string): string {
   return labels[status] || status
 }
 
-function getResourceIcon(type: string): string {
-  const icons: Record<string, string> = {
-    'video': '🎥',
-    'document': '📄',
-    'link': '🔗',
-    'image': '🖼️',
-    'audio': '🎵',
-    'pdf': '📕',
-    'presentation': '📊',
-    'text': '📝'
+function getResourceIcon(type: string): LucideIcon {
+  const icons: Record<string, LucideIcon> = {
+    'video': Video,
+    'document': FileText,
+    'link': LinkIcon,
+    'image': Image,
+    'audio': Music,
+    'pdf': File,
+    'presentation': BarChart3,
+    'text': NotebookPen
   }
-  return icons[type] || '📎'
+  return icons[type] || Paperclip
 }
 
 function getResourceTypeLabel(type: string): string {
@@ -454,6 +479,9 @@ function getQuestionTypeLabel(type: string): string {
   color: #007bff;
   text-decoration: none;
   font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .breadcrumb a:hover {
@@ -783,7 +811,8 @@ function getQuestionTypeLabel(type: string): string {
 }
 
 .attachment-icon {
-  font-size: 20px;
+  flex-shrink: 0;
+  color: #424242;
 }
 
 .attachment-path {
@@ -853,6 +882,9 @@ function getQuestionTypeLabel(type: string): string {
   color: #212121;
   font-size: 14px;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .collapsible-header .toggle-icon {
@@ -888,8 +920,8 @@ function getQuestionTypeLabel(type: string): string {
 }
 
 .resource-icon {
-  font-size: 24px;
   flex-shrink: 0;
+  color: #616161;
 }
 
 .resource-info {

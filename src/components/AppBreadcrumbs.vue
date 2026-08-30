@@ -2,7 +2,7 @@
   <nav v-if="breadcrumbs.length > 0" class="breadcrumbs-container">
     <div class="breadcrumbs">
       <RouterLink to="/" class="breadcrumb-item home">
-        <span class="breadcrumb-icon">🏠</span>
+        <Home class="breadcrumb-icon" :size="16" />
         <span class="breadcrumb-label">Главная</span>
       </RouterLink>
 
@@ -14,12 +14,12 @@
           :to="crumb.path"
           class="breadcrumb-item"
         >
-          <span v-if="crumb.icon" class="breadcrumb-icon">{{ crumb.icon }}</span>
+          <component :is="getIcon(crumb.icon)" v-if="crumb.icon" class="breadcrumb-icon" :size="16" />
           <span class="breadcrumb-label">{{ crumb.label }}</span>
         </RouterLink>
 
         <span v-else class="breadcrumb-item active">
-          <span v-if="crumb.icon" class="breadcrumb-icon">{{ crumb.icon }}</span>
+          <component :is="getIcon(crumb.icon)" v-if="crumb.icon" class="breadcrumb-icon" :size="16" />
           <span class="breadcrumb-label">{{ crumb.label }}</span>
         </span>
       </template>
@@ -30,7 +30,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { Home } from 'lucide-vue-next'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
+import { getIcon } from '../utils/icons'
 
 const route = useRoute()
 const { getBreadcrumb, dynamicBreadcrumbs } = useBreadcrumb()
@@ -77,15 +79,15 @@ const breadcrumbs = computed<Breadcrumb[]>(() => {
 
           // Ищем по иконке и типу пути
           let found = null
-          if (bc.icon === '📖') {
+          if (bc.icon === 'journal') {
             // Ищем breadcrumb курса
             found = allDynamic.find(([path, crumb]) => {
-              return crumb.icon === '📖' && path.startsWith('/student/courses/')
+              return crumb.icon === 'journal' && path.startsWith('/student/courses/')
             })
-          } else if (bc.icon === '📄') {
+          } else if (bc.icon === 'paragraph') {
             // Ищем breadcrumb параграфа
             found = allDynamic.find(([path, crumb]) => {
-              return crumb.icon === '📄' && path.startsWith('/student/paragraphs/')
+              return crumb.icon === 'paragraph' && path.startsWith('/student/paragraphs/')
             })
           }
 
@@ -177,8 +179,7 @@ const breadcrumbs = computed<Breadcrumb[]>(() => {
 }
 
 .breadcrumb-icon {
-  font-size: 16px;
-  line-height: 1;
+  flex-shrink: 0;
 }
 
 .breadcrumb-label {
@@ -215,7 +216,8 @@ const breadcrumbs = computed<Breadcrumb[]>(() => {
   }
 
   .breadcrumb-icon {
-    font-size: 14px;
+    width: 14px;
+    height: 14px;
   }
 }
 </style>

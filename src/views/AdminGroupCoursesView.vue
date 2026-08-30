@@ -2,7 +2,7 @@
   <div v-if="group" class="card">
     <div class="head">
       <h3>{{ $t('groupCourses.title', { groupName: group.display_name }) }}</h3>
-      <router-link class="btn" to="/admin/groups">← {{ $t('groupCourses.backToGroups') }}</router-link>
+      <router-link class="btn" to="/admin/groups"><ArrowLeft :size="16" /> {{ $t('groupCourses.backToGroups') }}</router-link>
     </div>
 
     <p class="muted" v-if="group.level">
@@ -72,6 +72,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

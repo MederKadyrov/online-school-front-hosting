@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()
@@ -55,7 +56,7 @@ onMounted(async () => { await Promise.all([loadLevels(), loadTeachers(), loadRow
 
 <template>
   <div class="card">
-    <a data-v-6e9086f4="" href="/admin/groups" class="btn">← Группы</a>
+    <a data-v-6e9086f4="" href="/admin/groups" class="btn"><ArrowLeft :size="16" /> Группы</a>
     <h3>{{ isEdit ? $t('groupForm.editTitle') : $t('groupForm.createTitle') }}</h3>
     <form @submit.prevent="submit">
       <label>{{ $t('groupForm.level') }}</label>

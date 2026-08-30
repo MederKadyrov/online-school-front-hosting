@@ -80,7 +80,8 @@
               :class="['inp', errors.password && 'input-error']"
             />
             <button type="button" @click="showPassword = !showPassword" class="password-toggle-teacher">
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+              <Eye v-if="showPassword" :size="18" />
+              <EyeOff v-else :size="18" />
             </button>
           </div>
           <span v-if="errors.password" class="field-error">{{ errors.password }}</span>
@@ -94,7 +95,8 @@
               :class="['inp', errors.password_confirmation && 'input-error']"
             />
             <button type="button" @click="showPasswordConfirm = !showPasswordConfirm" class="password-toggle-teacher">
-              {{ showPasswordConfirm ? '👁️' : '👁️‍🗨️' }}
+              <Eye v-if="showPasswordConfirm" :size="18" />
+              <EyeOff v-else :size="18" />
             </button>
           </div>
           <span v-if="errors.password_confirmation" class="field-error">{{ errors.password_confirmation }}</span>
@@ -112,7 +114,7 @@
       </div>
 
       <div class="actions">
-        <router-link to="/admin/teachers" class="btn">← {{ $t('teacherForm.back') }}</router-link>
+        <router-link to="/admin/teachers" class="btn"><ArrowLeft :size="16" /> {{ $t('teacherForm.back') }}</router-link>
         <button class="btn primary" type="submit" :disabled="saving">
           {{ saving ? $t('teacherForm.saving') : (isEdit ? $t('teacherForm.save') : $t('teacherForm.create')) }}
         </button>
@@ -128,6 +130,7 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft, Eye, EyeOff } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

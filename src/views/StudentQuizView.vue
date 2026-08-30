@@ -93,7 +93,7 @@
       <!-- Итоги после завершения -->
       <div v-if="result && !inProgress" class="result-summary">
         <p class="ok">
-          {{ $t('studentQuiz.result') }}: {{ result.score }}/{{ quiz.max_points }} → {{ result.grade_5 }}/5
+          {{ $t('studentQuiz.result') }}: {{ result.score }}/{{ quiz.max_points }} <ArrowRight :size="14" /> {{ result.grade_5 }}/5
         </p>
         <p class="muted">
           {{ $t('studentQuiz.correct') }}: {{ result.correct_count ?? '–' }},
@@ -125,6 +125,7 @@
 // Импорты
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ArrowRight } from 'lucide-vue-next'
 import api from '../utils/api'
 import { useRoute } from 'vue-router'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
@@ -203,7 +204,7 @@ async function load(){
       if (courseId) {
         setBreadcrumb(`/student/courses/${courseId}`, {
           label: courseTitle,
-          icon: '📖',
+          icon: 'journal',
           path: `/student/courses/${courseId}`
         })
       }
@@ -211,7 +212,7 @@ async function load(){
       // Устанавливаем breadcrumb для параграфа
       setBreadcrumb(`/student/paragraphs/${paragraphId}`, {
         label: paragraphTitle,
-        icon: '📄',
+        icon: 'paragraph',
         path: `/student/paragraphs/${paragraphId}`
       })
     }
@@ -225,7 +226,7 @@ async function load(){
     // Устанавливаем breadcrumb для теста
     setBreadcrumb(route.path, {
       label: quiz.value.title || 'Тест',
-      icon: '🧪',
+      icon: 'quiz',
       path: route.path
     })
 

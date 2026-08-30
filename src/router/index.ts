@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
         component: AdminRegisterTeacher,
         meta: {
             auth: true,
-            breadcrumb: { label: 'Регистрация учителя', icon: '👨‍🏫' }
+            breadcrumb: { label: 'Регистрация учителя', icon: 'teacher' }
         }
     },
     {
@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/StudentCoursesView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Мои курсы', icon: '📚', path: '/student/courses' }
+            breadcrumb: { label: 'Мои курсы', icon: 'course', path: '/student/courses' }
         }
     },
     {
@@ -36,8 +36,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
             auth: true,
             breadcrumb: [
-                { label: 'Мои курсы', icon: '📚', path: '/student/courses' },
-                { label: 'Курс', icon: '📖' }
+                { label: 'Мои курсы', icon: 'course', path: '/student/courses' },
+                { label: 'Курс', icon: 'journal' }
             ]
         }
     },
@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/StudentProfileView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Мой профиль', icon: '👤' }
+            breadcrumb: { label: 'Мой профиль', icon: 'profile' }
         }
     },
     {
@@ -56,9 +56,9 @@ const routes: RouteRecordRaw[] = [
         meta: {
             auth: true,
             breadcrumb: [
-                { label: 'Мои курсы', icon: '📚', path: '/student/courses' },
-                { label: 'Курс', icon: '📖' },
-                { label: 'Параграф', icon: '📄' }
+                { label: 'Мои курсы', icon: 'course', path: '/student/courses' },
+                { label: 'Курс', icon: 'journal' },
+                { label: 'Параграф', icon: 'paragraph' }
             ]
         }
     },
@@ -68,10 +68,10 @@ const routes: RouteRecordRaw[] = [
         meta: {
             auth: true,
             breadcrumb: [
-                { label: 'Мои курсы', icon: '📚', path: '/student/courses' },
-                { label: 'Курс', icon: '📖' },
-                { label: 'Параграф', icon: '📄' },
-                { label: 'Тест', icon: '🧪' }
+                { label: 'Мои курсы', icon: 'course', path: '/student/courses' },
+                { label: 'Курс', icon: 'journal' },
+                { label: 'Параграф', icon: 'paragraph' },
+                { label: 'Тест', icon: 'quiz' }
             ]
         }
     },
@@ -84,21 +84,21 @@ const routes: RouteRecordRaw[] = [
         path: '/admin/teachers',
         component: () => import('../views/AdminTeachersListView.vue'),
         meta: {
-            breadcrumb: { label: 'Учителя', icon: '👨‍🏫' }
+            breadcrumb: { label: 'Учителя', icon: 'teacher' }
         }
     },
     {
         path: '/admin/teachers/new',
         component: () => import('../views/AdminTeacherFormView.vue'),
         meta: {
-            breadcrumb: { label: 'Новый учитель', icon: '➕' }
+            breadcrumb: { label: 'Новый учитель', icon: 'new' }
         }
     },
     {
         path: '/admin/teachers/:id/edit',
         component: () => import('../views/AdminTeacherFormView.vue'),
         meta: {
-            breadcrumb: { label: 'Редактирование', icon: '✏️' }
+            breadcrumb: { label: 'Редактирование', icon: 'edit' }
         }
     },
 
@@ -107,7 +107,7 @@ const routes: RouteRecordRaw[] = [
         path: '/admin/groups',
         component: () => import('../views/AdminGroupsListView.vue'),
         meta: {
-            breadcrumb: { label: 'Группы', icon: '🏫', path: '/admin/groups' }
+            breadcrumb: { label: 'Группы', icon: 'school', path: '/admin/groups' }
         }
     },
     {
@@ -115,8 +115,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminGroupFormView.vue'),
         meta: {
             breadcrumb: [
-                { label: 'Группы', icon: '🏫', path: '/admin/groups' },
-                { label: 'Новая группа', icon: '➕' }
+                { label: 'Группы', icon: 'school', path: '/admin/groups' },
+                { label: 'Новая группа', icon: 'new' }
             ]
         }
     },
@@ -125,8 +125,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminGroupFormView.vue'),
         meta: {
             breadcrumb: [
-                { label: 'Группы', icon: '🏫', path: '/admin/groups' },
-                { label: 'Редактирование', icon: '✏️' }
+                { label: 'Группы', icon: 'school', path: '/admin/groups' },
+                { label: 'Редактирование', icon: 'edit' }
             ]
         }
     },
@@ -135,8 +135,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminGroupCoursesView.vue'),
         meta: {
             breadcrumb: [
-                { label: 'Группы', icon: '🏫', path: '/admin/groups' },
-                { label: 'Курсы группы', icon: '📚' }
+                { label: 'Группы', icon: 'school', path: '/admin/groups' },
+                { label: 'Курсы группы', icon: 'course' }
             ]
         }
     },
@@ -145,8 +145,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminGroupStudentsView.vue'),
         meta: {
             breadcrumb: [
-                { label: 'Группы', icon: '🏫', path: '/admin/groups' },
-                { label: 'Студенты', icon: '👨‍🎓' }
+                { label: 'Группы', icon: 'school', path: '/admin/groups' },
+                { label: 'Студенты', icon: 'student' }
             ]
         }
     },
@@ -157,7 +157,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminStudentsView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Студенты', icon: '👨‍🎓' }
+            breadcrumb: { label: 'Студенты', icon: 'student' }
         }
     },
     {
@@ -165,7 +165,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminCoursesView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Курсы учителей', icon: '📚' }
+            breadcrumb: { label: 'Курсы учителей', icon: 'course' }
         }
     },
     {
@@ -174,8 +174,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
             auth: true,
             breadcrumb: [
-                { label: 'Курсы учителей', icon: '📚', path: '/admin/courses' },
-                { label: 'Детали курса', icon: '📖' }
+                { label: 'Курсы учителей', icon: 'course', path: '/admin/courses' },
+                { label: 'Детали курса', icon: 'journal' }
             ]
         }
     },
@@ -184,7 +184,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminSubmissionsView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Проверка работ', icon: '✏️' }
+            breadcrumb: { label: 'Проверка работ', icon: 'edit' }
         }
     },
     {
@@ -192,7 +192,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminJournalView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Журнал', icon: '📖' }
+            breadcrumb: { label: 'Журнал', icon: 'journal' }
         }
     },
     {
@@ -200,7 +200,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/AdminUserPasswordsView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Пароли', icon: '🔑' }
+            breadcrumb: { label: 'Пароли', icon: 'password' }
         }
     },
 
@@ -209,21 +209,21 @@ const routes: RouteRecordRaw[] = [
         path: '/admin/subjects',
         component: () => import('../views/AdminSubjectsListView.vue'),
         meta: {
-            breadcrumb: { label: 'Предметы', icon: '📚' }
+            breadcrumb: { label: 'Предметы', icon: 'course' }
         }
     },
     {
         path: '/admin/subjects/new',
         component: () => import('../views/AdminSubjectFormView.vue'),
         meta: {
-            breadcrumb: { label: 'Новый предмет', icon: '➕' }
+            breadcrumb: { label: 'Новый предмет', icon: 'new' }
         }
     },
     {
         path: '/admin/subjects/:id/edit',
         component: () => import('../views/AdminSubjectFormView.vue'),
         meta: {
-            breadcrumb: { label: 'Редактирование', icon: '✏️' }
+            breadcrumb: { label: 'Редактирование', icon: 'edit' }
         }
     },
 
@@ -232,7 +232,7 @@ const routes: RouteRecordRaw[] = [
         path: '/teacher/courses',
         component: () => import('../views/TeacherCoursesView.vue'),
         meta: {
-            breadcrumb: { label: 'Мои курсы', icon: '📚', path: '/teacher/courses' }
+            breadcrumb: { label: 'Мои курсы', icon: 'course', path: '/teacher/courses' }
         }
     },
     {
@@ -240,8 +240,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/TeacherCourseEditView.vue'),
         meta: {
             breadcrumb: [
-                { label: 'Мои курсы', icon: '📚', path: '/teacher/courses' },
-                { label: 'Редактирование курса', icon: '✏️' }
+                { label: 'Мои курсы', icon: 'course', path: '/teacher/courses' },
+                { label: 'Редактирование курса', icon: 'edit' }
             ]
         }
     },
@@ -250,7 +250,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/TeacherSubmissionsView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Проверка работ', icon: '✏️' }
+            breadcrumb: { label: 'Проверка работ', icon: 'edit' }
         }
     },
     {
@@ -258,7 +258,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/TeacherJournalView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Журнал', icon: '📖' }
+            breadcrumb: { label: 'Журнал', icon: 'journal' }
         }
     },
     {
@@ -266,7 +266,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/TeacherProfileView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Мой профиль', icon: '👤' }
+            breadcrumb: { label: 'Мой профиль', icon: 'profile' }
         }
     },
 
@@ -276,7 +276,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/StudentJournalView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Журнал', icon: '📖' }
+            breadcrumb: { label: 'Журнал', icon: 'journal' }
         }
     },
     {
@@ -284,7 +284,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/StudentAssignmentsView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Мои задания', icon: '📝' }
+            breadcrumb: { label: 'Мои задания', icon: 'assignment' }
         }
     },
 
@@ -293,14 +293,14 @@ const routes: RouteRecordRaw[] = [
         path: '/check-application',
         component: () => import('../views/CheckApplicationStatusView.vue'),
         meta: {
-            breadcrumb: { label: 'Проверить статус заявки', icon: '🔍' }
+            breadcrumb: { label: 'Проверить статус заявки', icon: 'search' }
         }
     },
     {
         path: '/revise-application',
         component: () => import('../views/ReviseApplicationView.vue'),
         meta: {
-            breadcrumb: { label: 'Редактировать заявку', icon: '📝' }
+            breadcrumb: { label: 'Редактировать заявку', icon: 'assignment' }
         }
     },
 
@@ -310,7 +310,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/admin/ApplicationsListView.vue'),
         meta: {
             auth: true,
-            breadcrumb: { label: 'Заявки студентов', icon: '📋', path: '/admin/applications' }
+            breadcrumb: { label: 'Заявки студентов', icon: 'applications', path: '/admin/applications' }
         }
     },
     {
@@ -319,8 +319,8 @@ const routes: RouteRecordRaw[] = [
         meta: {
             auth: true,
             breadcrumb: [
-                { label: 'Заявки студентов', icon: '📋', path: '/admin/applications' },
-                { label: 'Детали заявки', icon: '📄' }
+                { label: 'Заявки студентов', icon: 'applications', path: '/admin/applications' },
+                { label: 'Детали заявки', icon: 'paragraph' }
             ]
         }
     },

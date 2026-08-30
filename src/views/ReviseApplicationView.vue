@@ -24,15 +24,15 @@
               <label>{{ $t('studentPhoto') }} <small class="optional-label">({{ $t('optional') }})</small></label>
               <div v-if="hasExistingDocument('student_photo') && !documentsToReplace['student_photo']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('student_photo')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('student_photo')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -54,15 +54,15 @@
               <label>{{ $t('guardianApplication') }}</label>
               <div v-if="hasExistingDocument('guardian_application') && !documentsToReplace['guardian_application']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('guardian_application')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('guardian_application')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -84,15 +84,15 @@
               <label>{{ $t('birthCertificate') }}</label>
               <div v-if="hasExistingDocument('birth_certificate') && !documentsToReplace['birth_certificate']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('birth_certificate')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('birth_certificate')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -114,15 +114,15 @@
               <label>{{ $t('studentPinDocument') }}</label>
               <div v-if="hasExistingDocument('student_pin_doc') && !documentsToReplace['student_pin_doc']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('student_pin_doc')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('student_pin_doc')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -144,15 +144,15 @@
               <label>{{ $t('guardianPassport') }}</label>
               <div v-if="hasExistingDocument('guardian_passport') && !documentsToReplace['guardian_passport']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('guardian_passport')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('guardian_passport')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -174,15 +174,15 @@
               <label>{{ $t('medicalCertificate') }}</label>
               <div v-if="hasExistingDocument('medical_certificate') && !documentsToReplace['medical_certificate']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('medical_certificate')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('medical_certificate')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -204,15 +204,15 @@
               <label>{{ $t('previousSchoolRecord') }}</label>
               <div v-if="hasExistingDocument('previous_school_record') && !documentsToReplace['previous_school_record']" class="existing-document">
                 <div class="document-status">
-                  <span class="status-icon">✓</span>
+                  <Check class="status-icon" :size="16" />
                   <span class="status-text">{{ $t('documentUploaded') }}</span>
                 </div>
                 <div class="document-actions">
                   <button type="button" @click="viewDocument('previous_school_record')" class="btn-view">
-                    👁️ {{ $t('view') }}
+                    <Eye :size="16" /> {{ $t('view') }}
                   </button>
                   <button type="button" @click="markForReplacement('previous_school_record')" class="btn-replace">
-                    🔄 {{ $t('replace') }}
+                    <RefreshCw :size="16" /> {{ $t('replace') }}
                   </button>
                 </div>
               </div>
@@ -250,7 +250,7 @@
       <div class="modal modal-document">
         <div class="modal-header">
           <h3>{{ $t(`documentTypes.${currentDocumentKey}`) }}</h3>
-          <button @click="closeDocumentModal" class="btn-close">✕</button>
+          <button @click="closeDocumentModal" class="btn-close"><X :size="18" /></button>
         </div>
         <div class="document-preview">
           <iframe :src="documentPreviewUrl" frameborder="0"></iframe>
@@ -267,6 +267,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { Check, Eye, RefreshCw, X } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

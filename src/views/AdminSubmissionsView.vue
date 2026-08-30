@@ -90,7 +90,7 @@
             <td>{{ s.grade_5 ?? '—' }}</td>
             <td class="actions-cell">
               <button class="btn xs" @click="openViewModal(s)" :title="$t('submissions.view')">
-                👁️
+                <Eye :size="16" />
               </button>
               <a
                 v-if="s.file_path"
@@ -99,7 +99,7 @@
                 class="btn xs"
                 :title="$t('submissions.download')"
               >
-                📎
+                <Paperclip :size="16" />
               </a>
             </td>
           </tr>
@@ -136,7 +136,7 @@
         <div v-if="viewModal.submission?.file_path" class="file-download">
           <label>{{ $t('submissions.file') }}:</label>
           <a :href="storageUrl(viewModal.submission.file_path)" target="_blank" class="btn">
-            📎 {{ $t('submissions.download') }}
+            <Paperclip :size="16" /> {{ $t('submissions.download') }}
           </a>
         </div>
 
@@ -167,6 +167,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { Eye, Paperclip } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

@@ -79,3 +79,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.lucide {
+  vertical-align: -3px;
+  flex-shrink: 0;
+}

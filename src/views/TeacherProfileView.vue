@@ -1,7 +1,7 @@
 <template>
   <div class="profile-view">
     <div class="page-header">
-      <h1>👤 {{ $t('teacherProfile.title') }}</h1>
+      <h1><User :size="24" /> {{ $t('teacherProfile.title') }}</h1>
       <p class="subtitle">{{ $t('teacherProfile.subtitle') }}</p>
     </div>
 
@@ -11,7 +11,7 @@
     </div>
 
     <div v-else-if="error" class="error-message">
-      <span class="error-icon">⚠️</span>
+      <AlertTriangle class="error-icon" :size="24" />
       <p>{{ error }}</p>
       <button @click="fetchProfile" class="btn-retry">{{ $t('teacherProfile.tryAgain') }}</button>
     </div>
@@ -24,14 +24,14 @@
           :class="{ active: activeTab === 'profile' }"
           @click="activeTab = 'profile'"
         >
-          📋 {{ $t('teacherProfile.profileTab') }}
+          <ClipboardList :size="16" /> {{ $t('teacherProfile.profileTab') }}
         </button>
         <button
           class="tab-button"
           :class="{ active: activeTab === 'password' }"
           @click="activeTab = 'password'"
         >
-          🔒 {{ $t('teacherProfile.passwordTab') }}
+          <Lock :size="16" /> {{ $t('teacherProfile.passwordTab') }}
         </button>
       </div>
 
@@ -40,7 +40,7 @@
         <!-- Личная информация -->
         <div class="profile-card">
           <div class="card-header">
-            <h2>📋 {{ $t('teacherProfile.personalInfo') }}</h2>
+            <h2><ClipboardList :size="18" /> {{ $t('teacherProfile.personalInfo') }}</h2>
           </div>
           <div class="card-body">
             <div class="info-grid">
@@ -76,7 +76,7 @@
         <!-- Информация о преподавании -->
         <div v-if="profile.subjects && profile.subjects.length > 0" class="profile-card">
           <div class="card-header">
-            <h2>📚 {{ $t('teacherProfile.teachingSubjects') }}</h2>
+            <h2><BookOpen :size="18" /> {{ $t('teacherProfile.teachingSubjects') }}</h2>
           </div>
           <div class="card-body">
             <div class="subjects-list">
@@ -92,7 +92,7 @@
       <div v-if="activeTab === 'password'" class="tab-content">
         <div class="profile-card">
           <div class="card-header">
-            <h2>🔒 {{ $t('teacherProfile.changePassword') }}</h2>
+            <h2><Lock :size="18" /> {{ $t('teacherProfile.changePassword') }}</h2>
           </div>
           <div class="card-body">
             <form @submit.prevent="changePassword" class="password-form">
@@ -154,6 +154,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { User, AlertTriangle, ClipboardList, Lock, BookOpen } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

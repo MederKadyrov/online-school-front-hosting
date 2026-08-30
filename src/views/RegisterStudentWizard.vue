@@ -11,14 +11,14 @@
       <div class="steps-indicator">
         <div :class="['step-item', step===1 && 'active']">
           <div class="step-circle">
-            <span class="step-icon">👤</span>
+            <User class="step-icon" :size="20" />
           </div>
           <span class="step-label">{{ $t('studentRegistration.step1Label') }}</span>
         </div>
         <div class="step-line"></div>
         <div :class="['step-item', step===2 && 'active']">
           <div class="step-circle">
-            <span class="step-icon">📄</span>
+            <FileText class="step-icon" :size="20" />
           </div>
           <span class="step-label">{{ $t('studentRegistration.step2Label') }}</span>
         </div>
@@ -285,7 +285,8 @@
                   :placeholder="$t('studentRegistration.passwordPlaceholder')"
                 />
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                  {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+                  <Eye v-if="showPassword" :size="18" />
+                  <EyeOff v-else :size="18" />
                 </button>
               </div>
               <small class="error-message" v-if="errors['student.password']">{{ errors['student.password'] }}</small>
@@ -301,7 +302,8 @@
                   :placeholder="$t('studentRegistration.repeatPassword')"
                 />
                 <button type="button" @click="showPasswordConfirm = !showPasswordConfirm" class="password-toggle">
-                  {{ showPasswordConfirm ? '👁️' : '👁️‍🗨️' }}
+                  <Eye v-if="showPasswordConfirm" :size="18" />
+                  <EyeOff v-else :size="18" />
                 </button>
               </div>
               <small class="error-message" v-if="errors['student.password_confirmation']">{{ errors['student.password_confirmation'] }}</small>
@@ -318,8 +320,8 @@
                   id="photo-upload"
                 />
                 <label for="photo-upload" class="file-label">
-                  <span v-if="!studentPhotoPreview">📷 {{ $t('studentRegistration.selectPhoto') }}</span>
-                  <span v-else>✓ {{ $t('studentRegistration.photoSelected') }}</span>
+                  <span v-if="!studentPhotoPreview"><Camera :size="16" /> {{ $t('studentRegistration.selectPhoto') }}</span>
+                  <span v-else><Check :size="16" /> {{ $t('studentRegistration.photoSelected') }}</span>
                 </label>
               </div>
               <small class="error-message" v-if="errors['student_photo']">{{ errors['student_photo'] }}</small>
@@ -335,7 +337,7 @@
         <div class="form-actions">
           <button @click="goStep2" class="btn btn-primary btn-large">
             {{ $t('studentRegistration.nextStep') }}
-            <span class="btn-icon">→</span>
+            <ArrowRight class="btn-icon" :size="18" />
           </button>
         </div>
       </div>
@@ -358,7 +360,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-guardian-app'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.guardian_application ? files.guardian_application.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -376,7 +378,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-guardian-pass'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.guardian_passport ? files.guardian_passport.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -394,7 +396,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-birth-cert'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.birth_certificate ? files.birth_certificate.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -412,7 +414,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-pin-doc'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.student_pin_doc ? files.student_pin_doc.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -430,7 +432,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-medical'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.medical_certificate ? files.medical_certificate.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -448,7 +450,7 @@
                   class="file-input-hidden"
                 />
                 <label :for="'file-prev-school'" class="file-upload-label">
-                  <span class="file-icon">📄</span>
+                  <FileText class="file-icon" :size="20" />
                   <span class="file-text">{{ files.previous_school_record ? files.previous_school_record.name : $t('studentRegistration.selectFile') }}</span>
                 </label>
               </div>
@@ -459,7 +461,7 @@
 
         <div v-if="error2" class="alert alert-error">{{ error2 }}</div>
         <div v-if="ok" class="alert alert-success">
-          <strong>✓ {{ $t('studentRegistration.successTitle') }}</strong>
+          <strong><Check :size="16" /> {{ $t('studentRegistration.successTitle') }}</strong>
           <p>{{ $t('studentRegistration.successMessage') }}</p>
           <div v-if="registrationNumber" class="registration-number-display">
             <p><strong>{{ $t('yourRegistrationNumber') }}:</strong></p>
@@ -470,7 +472,7 @@
 
         <div class="form-actions" v-if="!ok">
           <button @click="step=1" class="btn btn-secondary">
-            <span class="btn-icon">←</span>
+            <ArrowLeft class="btn-icon" :size="18" />
             {{ $t('studentRegistration.back') }}
           </button>
           <button @click="submitAll" :disabled="saving" class="btn btn-primary btn-large">
@@ -486,6 +488,7 @@
 import api from '../utils/api'
 import { ref, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { User, FileText, Eye, EyeOff, Camera, Check, ArrowRight, ArrowLeft } from 'lucide-vue-next'
 
 const { t } = useI18n()
 

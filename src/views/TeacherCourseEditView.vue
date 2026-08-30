@@ -64,7 +64,7 @@
                   <div class="chapter-card">
                     <!-- Chapter Header -->
                     <div class="chapter-header">
-                      <span class="drag-handle">⋮⋮</span>
+                      <GripVertical class="drag-handle" :size="16" />
                       <div class="chapter-title-area">
                         <h4 v-if="editChapterId !== ch.id">
                           {{ $t('teacherCourseEdit.chapterNumber', { number: ch.number }) }}. {{ ch.title }}
@@ -76,8 +76,8 @@
                         </div>
                       </div>
                       <div class="chapter-actions">
-                        <button class="btn-icon-sm" @click="startEditChapter(ch)" :title="$t('teacherCourseEdit.edit')">✏️</button>
-                        <button class="btn-icon-sm btn-danger" @click="removeChapter(ch)" :title="$t('teacherCourseEdit.delete')">🗑</button>
+                        <button class="btn-icon-sm" @click="startEditChapter(ch)" :title="$t('teacherCourseEdit.edit')"><Pencil :size="14" /></button>
+                        <button class="btn-icon-sm btn-danger" @click="removeChapter(ch)" :title="$t('teacherCourseEdit.delete')"><Trash2 :size="14" /></button>
                       </div>
                     </div>
 
@@ -104,7 +104,7 @@
                     >
                       <template #item="{ element: p }">
                         <div class="paragraph-item">
-                          <span class="para-drag">⋮⋮</span>
+                          <GripVertical class="para-drag" :size="16" />
 
                           <div class="paragraph-content">
                             <template v-if="editParagraphId !== p.id">
@@ -117,7 +117,7 @@
 
                               <div class="paragraph-actions">
                                 <button class="action-btn" @click="startEditParagraph(p)" :title="$t('teacherCourseEdit.edit')">
-                                  ✏️
+                                  <Pencil :size="14" />
                                 </button>
                                 <button class="action-btn" @click="openResources(ch, p)" :title="$t('teacherCourseEdit.resources')">
                                   {{ $t('teacherCourseEdit.resources') }}
@@ -132,7 +132,7 @@
                                   <span :class="['status-dot', p.quiz_status === 'published' ? 'green' : p.has_quiz ? 'yellow' : 'red']"></span>
                                 </button>
                                 <button class="action-btn btn-danger" @click="removeParagraph(ch, p)" :title="$t('teacherCourseEdit.delete')">
-                                  🗑
+                                  <Trash2 :size="14" />
                                 </button>
                               </div>
                             </template>
@@ -166,7 +166,7 @@
     <div v-if="resPanel.open" class="modal-overlay" @click="closeResPanel">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
-          <h3>📎 {{ $t('teacherCourseEdit.resourcesTitle', { title: resPanel.paragraph?.title }) }}</h3>
+          <h3><Paperclip :size="18" /> {{ $t('teacherCourseEdit.resourcesTitle', { title: resPanel.paragraph?.title }) }}</h3>
           <button class="btn-close" @click="closeResPanel">×</button>
         </div>
 
@@ -180,13 +180,13 @@
           >
             <template #item="{ element: r }">
               <div class="resource-item">
-                <span class="drag-handle">⋮⋮</span>
+                <GripVertical class="drag-handle" :size="16" />
                 <div class="resource-content">
                   <strong class="resource-label">{{ labelResource(r) }}</strong>
                   <div class="resource-meta">
-                    <span v-if="r.url">🔗 <a :href="r.url" target="_blank">{{ r.url }}</a></span>
-                    <span v-if="r.path">📁 {{ r.path }}</span>
-                    <span v-if="r.duration_sec">⏱️ {{ r.duration_sec }} сек</span>
+                    <span v-if="r.url"><LinkIcon :size="14" /> <a :href="r.url" target="_blank">{{ r.url }}</a></span>
+                    <span v-if="r.path"><Folder :size="14" /> {{ r.path }}</span>
+                    <span v-if="r.duration_sec"><Timer :size="14" /> {{ r.duration_sec }} сек</span>
                   </div>
 
                   <div v-if="resEdit.id === r.id" class="edit-section">
@@ -200,8 +200,8 @@
                   </div>
                 </div>
                 <div class="resource-actions">
-                  <button class="btn-icon-sm" @click="startEditResource(r)">✏️</button>
-                  <button class="btn-icon-sm btn-danger" @click="removeResource(r)">🗑</button>
+                  <button class="btn-icon-sm" @click="startEditResource(r)"><Pencil :size="14" /></button>
+                  <button class="btn-icon-sm btn-danger" @click="removeResource(r)"><Trash2 :size="14" /></button>
                 </div>
               </div>
             </template>
@@ -212,11 +212,11 @@
           <h4>{{ $t('teacherCourseEdit.addResource') }}</h4>
           <div class="add-resource-form">
             <select v-model="resForm.type" class="form-select">
-              <option value="link">🔗 {{ $t('teacherCourseEdit.resourceLink') }}</option>
+              <option value="link">{{ $t('teacherCourseEdit.resourceLink') }}</option>
               <!-- <option value="video">📹 {{ $t('teacherCourseEdit.resourceVideo') }}</option> -->
-              <option value="file">📁 {{ $t('teacherCourseEdit.resourceFile') }}</option>
+              <option value="file">{{ $t('teacherCourseEdit.resourceFile') }}</option>
               <!-- <option value="presentation">📊 {{ $t('teacherCourseEdit.resourcePresentation') }}</option> -->
-              <option value="text">📄 {{ $t('teacherCourseEdit.resourceText') }}</option>
+              <option value="text">{{ $t('teacherCourseEdit.resourceText') }}</option>
             </select>
 
             <input
@@ -258,7 +258,7 @@
     <div v-if="asg.open" class="modal-overlay" @click="closeAsg">
       <div class="modal-content modal-large" @click.stop>
         <div class="modal-header">
-          <h3>📝 {{ $t('teacherCourseEdit.assignmentTitle', { title: asg.item?.title || $t('teacherCourseEdit.new') }) }}</h3>
+          <h3><NotebookPen :size="18" /> {{ $t('teacherCourseEdit.assignmentTitle', { title: asg.item?.title || $t('teacherCourseEdit.new') }) }}</h3>
           <button class="btn-close" @click="closeAsg">×</button>
         </div>
         <div class="modal-body">
@@ -370,7 +370,7 @@
     <div v-if="quiz.open" class="modal-overlay" @click="closeQuiz">
       <div class="modal-content modal-large" @click.stop>
         <div class="modal-header">
-          <h3>📝 {{ $t('teacherCourseEdit.quizTitle', { title: quiz.item?.title || $t('teacherCourseEdit.new') }) }}</h3>
+          <h3><NotebookPen :size="18" /> {{ $t('teacherCourseEdit.quizTitle', { title: quiz.item?.title || $t('teacherCourseEdit.new') }) }}</h3>
           <button class="btn-close" @click="closeQuiz">×</button>
         </div>
         <div class="modal-body">
@@ -399,7 +399,7 @@
                 <input type="checkbox" v-model="quiz.form.shuffle" @change="autoSaveQuizBasics" /> {{ $t('teacherCourseEdit.quizShuffle') }}
               </label> -->
 
-              <p v-if="quiz.autoSaved" class="auto-saved">✓ {{ $t('teacherCourseEdit.quizSaved') }}</p>
+              <p v-if="quiz.autoSaved" class="auto-saved"><Check :size="14" /> {{ $t('teacherCourseEdit.quizSaved') }}</p>
 
 
               <!-- Блок действий -->
@@ -421,7 +421,7 @@
                       class="btn published"
                       disabled
                   >
-                    {{ $t('teacherCourseEdit.quizPublished') }} ✓
+                    {{ $t('teacherCourseEdit.quizPublished') }} <Check :size="14" />
                   </button>
                   <button
                       v-else
@@ -554,6 +554,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { GripVertical, Pencil, Trash2, Paperclip, Link as LinkIcon, Folder, Timer, NotebookPen, Check } from 'lucide-vue-next'
 import api from '../utils/api'
 import draggable from 'vuedraggable'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
@@ -641,7 +642,7 @@ async function loadCourse(){
   if (data && data.title) {
     setBreadcrumb(route.path, {
       label: data.title,
-      icon: '📖'
+      icon: 'journal'
     })
   }
 

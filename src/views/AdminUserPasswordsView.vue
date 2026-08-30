@@ -44,14 +44,14 @@
         @click="loadPage(pagination.current_page - 1)"
         :disabled="pagination.current_page === 1"
       >
-        ← {{ $t('passwords.previousPage') }}
+        <ArrowLeft :size="16" /> {{ $t('passwords.previousPage') }}
       </button>
       <span>{{ $t('passwords.page') }} {{ pagination.current_page }} {{ $t('passwords.of') }} {{ pagination.last_page }}</span>
       <button
         @click="loadPage(pagination.current_page + 1)"
         :disabled="pagination.current_page === pagination.last_page"
       >
-        {{ $t('passwords.nextPage') }} →
+        {{ $t('passwords.nextPage') }} <ArrowRight :size="16" />
       </button>
     </div>
 
@@ -63,7 +63,7 @@
         <p><strong>{{ $t('passwords.pin') }}:</strong> {{ selectedUser?.pin }}</p>
 
         <div v-if="tempPassword" class="success-box">
-          <p><strong>✓ {{ $t('passwords.passwordResetSuccess') }}</strong></p>
+          <p><strong><Check :size="14" /> {{ $t('passwords.passwordResetSuccess') }}</strong></p>
           <p>{{ $t('passwords.tempPassword') }}:</p>
           <div class="temp-password">{{ tempPassword }}</div>
           <p style="font-size: 12px; color: #666; margin-top: 8px;">
@@ -93,6 +93,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft, ArrowRight, Check } from 'lucide-vue-next'
 import api from '../utils/api'
 
 const { t } = useI18n()

@@ -3,7 +3,7 @@
     <div class="login-card">
       <!-- Header -->
       <div class="login-header">
-        <div class="login-icon">🔐</div>
+        <div class="login-icon"><LockKeyhole :size="48" /></div>
         <h1>{{ $t('login.title') }}</h1>
         <p class="subtitle">{{ $t('login.subtitle') }}</p>
       </div>
@@ -32,7 +32,8 @@
               @keyup.enter="doLogin"
             />
             <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+              <Eye v-if="showPassword" :size="18" />
+              <EyeOff v-else :size="18" />
             </button>
           </div>
         </div>
@@ -60,6 +61,7 @@
 import { ref } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { LockKeyhole, Eye, EyeOff } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/auth'
 
 const { t } = useI18n()
@@ -122,7 +124,8 @@ const doLogin = async () => {
 }
 
 .login-icon {
-  font-size: 64px;
+  display: flex;
+  justify-content: center;
   margin-bottom: 16px;
   animation: pulse 2s infinite;
 }
