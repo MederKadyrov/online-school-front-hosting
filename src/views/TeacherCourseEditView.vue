@@ -470,6 +470,48 @@
                   <input v-model.number="q._points" type="number" min="1" class="inp tiny" @blur="updateQuestion(q)" />
                 </div>
 
+                <!-- Картинка вопроса -->
+                <div class="qimg-field">
+                  <label>{{ $t('teacherCourseEdit.quizQuestionImage') }}</label>
+                  <label
+                    class="qimg-dropzone"
+                    :class="{ 'has-image': q.image_url || q._imagePreview, 'is-dragover': q._dragOver, 'is-uploading': q._imageUploading }"
+                    @dragover.prevent="q._dragOver = true"
+                    @dragleave.prevent="q._dragOver = false"
+                    @drop.prevent="onDropQuestionImage($event, q)"
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      class="qimg-hidden-input"
+                      :disabled="q._imageUploading"
+                      @change="onPickQuestionImage($event, q)"
+                    />
+
+                    <template v-if="q.image_url || q._imagePreview">
+                      <img :src="q._imagePreview || q.image_url" class="qimg-preview" />
+                      <div class="qimg-overlay">
+                        <span class="qimg-overlay-btn">{{ $t('teacherCourseEdit.quizReplaceImage') }}</span>
+                        <button
+                          type="button"
+                          class="qimg-remove-btn"
+                          :title="$t('teacherCourseEdit.quizRemoveImage')"
+                          @click.stop.prevent="removeQuestionImage(q)"
+                        ><X :size="14" /></button>
+                      </div>
+                    </template>
+                    <template v-else>
+                      <ImagePlus :size="22" />
+                      <span class="qimg-hint">{{ $t('teacherCourseEdit.quizImageDropHint') }}</span>
+                    </template>
+
+                    <div v-if="q._imageUploading" class="qimg-loading-overlay">
+                      <span class="qimg-spinner"></span>
+                    </div>
+                  </label>
+                  <p v-if="q._imageError" class="error-message">{{ q._imageError }}</p>
+                </div>
+
                 <!-- Варианты -->
                 <div v-if="q.type!=='text'">
                   <div class="row">
@@ -554,7 +596,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { GripVertical, Pencil, Trash2, Paperclip, Link as LinkIcon, Folder, Timer, NotebookPen, Check } from 'lucide-vue-next'
+import { GripVertical, Pencil, Trash2, Paperclip, Link as LinkIcon, Folder, Timer, NotebookPen, Check, ImagePlus, X } from 'lucide-vue-next'
 import api from '../utils/api'
 import draggable from 'vuedraggable'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
@@ -1146,6 +1188,68 @@ async function updateQuestion(q:any){
   await api.put(`/teacher/questions/${q.id}`, { text: q._text, points: q._points })
   q.text = q._text; q.points = q._points
 }
+
+/** Загрузить / удалить картинку вопроса */
+const QIMG_MAX_BYTES = 5 * 1024 * 1024
+const QIMG_ALLOWED_TYPES = ['image/jpeg','image/png','image/webp','image/gif']
+
+function clearQuestionImagePreview(q:any){
+  if (q._imagePreview) URL.revokeObjectURL(q._imagePreview)
+  q._imagePreview = null
+}
+
+async function uploadQuestionImageFile(file:File, q:any){
+  q._imageError = ''
+  if (!QIMG_ALLOWED_TYPES.includes(file.type)) {
+    q._imageError = t('teacherCourseEdit.errorImageType')
+    return
+  }
+  if (file.size > QIMG_MAX_BYTES) {
+    q._imageError = t('teacherCourseEdit.errorImageSize')
+    return
+  }
+
+  clearQuestionImagePreview(q)
+  q._imagePreview = URL.createObjectURL(file)
+  q._imageUploading = true
+  try {
+    const fd = new FormData()
+    fd.append('file', file)
+    const { data: up } = await api.post('/teacher/upload/question-image', fd, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    const { data } = await api.put(`/teacher/questions/${q.id}`, { image_path: up.path })
+    q.image_path = data.image_path
+    q.image_url = data.image_url
+  } catch (e:any) {
+    q._imageError = e?.data?.message || e?.message || t('teacherCourseEdit.errorUploadImage')
+  } finally {
+    clearQuestionImagePreview(q)
+    q._imageUploading = false
+  }
+}
+
+function onPickQuestionImage(e:any, q:any){
+  const file = e.target.files?.[0]
+  e.target.value = ''
+  if (!file) return
+  uploadQuestionImageFile(file, q)
+}
+
+function onDropQuestionImage(e:DragEvent, q:any){
+  q._dragOver = false
+  if (q._imageUploading) return
+  const file = e.dataTransfer?.files?.[0]
+  if (!file) return
+  uploadQuestionImageFile(file, q)
+}
+
+async function removeQuestionImage(q:any){
+  const { data } = await api.put(`/teacher/questions/${q.id}`, { image_path: null })
+  q.image_path = data.image_path
+  q.image_url = data.image_url
+  q._imageError = ''
+}
 async function deleteQuestion(q:any){
   if (!confirm(t('teacherCourseEdit.confirmDeleteQuestion'))) return
   await api.delete(`/teacher/questions/${q.id}`)
@@ -1213,6 +1317,135 @@ watch(()=>route.params.id, loadCourse)
 </script>
 
 <style scoped>
+.qimg-field {
+  margin: 8px 0 12px;
+}
+
+.qimg-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 220px;
+  min-height: 130px;
+  margin-top: 6px;
+  padding: 12px;
+  border: 2px dashed #d0d0d0;
+  border-radius: 10px;
+  background: #fafafa;
+  color: #888;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.qimg-dropzone:hover {
+  border-color: #9aa0ff;
+  background: #f5f6ff;
+}
+
+.qimg-dropzone.is-dragover {
+  border-color: #6366f1;
+  background: #eef0ff;
+}
+
+.qimg-dropzone.has-image {
+  border-style: solid;
+  border-color: #e5e5e5;
+  padding: 0;
+}
+
+.qimg-dropzone.is-uploading {
+  cursor: default;
+}
+
+.qimg-hidden-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.qimg-hint {
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.qimg-preview {
+  display: block;
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+}
+
+.qimg-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 8px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.qimg-dropzone.has-image:hover .qimg-overlay {
+  opacity: 1;
+}
+
+.qimg-overlay-btn {
+  font-size: 12px;
+  color: #fff;
+}
+
+.qimg-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  cursor: pointer;
+}
+
+.qimg-remove-btn:hover {
+  background: #dc2626;
+}
+
+.qimg-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.6);
+}
+
+.qimg-spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #d0d0d0;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: qimg-spin 0.7s linear infinite;
+}
+
+@keyframes qimg-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ============================================
    Container & Layout
    ============================================ */

@@ -52,6 +52,7 @@
       <div v-if="inProgress">
         <div v-for="q in quiz.questions" :key="q.id" class="box">
           <p><strong>#{{ q.position }}.</strong> {{ q.text }} <small>({{ q.points }} {{ $t('studentQuiz.points') }})</small></p>
+          <img v-if="q.image_url" :src="q.image_url" class="quiz-question-image" />
 
           <!-- single -->
           <div v-if="q.type==='single'">
@@ -302,3 +303,14 @@ async function finish(){
 onMounted(load)
 onUnmounted(clearTimer)
 </script>
+
+<style scoped>
+.quiz-question-image {
+  display: block;
+  max-width: 100%;
+  max-height: 320px;
+  margin: 8px auto;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+}
+</style>

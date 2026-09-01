@@ -199,6 +199,7 @@
                               <span class="question-points">{{ question.points }} {{ $t('courseDetail.points').toLowerCase() }}</span>
                             </div>
                             <div class="question-text">{{ question.text }}</div>
+                            <img v-if="question.image_url" :src="question.image_url" class="question-image" />
 
                             <!-- Options for multiple choice -->
                             <div v-if="question.options && question.options.length > 0" class="question-options">
@@ -303,6 +304,7 @@ interface Course {
             id: number
             type: string
             text: string
+            image_url: string | null
             points: number
             position: number
             options: Array<{
@@ -1026,6 +1028,15 @@ function getQuestionTypeLabel(type: string): string {
   color: #212121;
   line-height: 1.5;
   font-size: 14px;
+}
+
+.question-image {
+  display: block;
+  max-width: 100%;
+  max-height: 220px;
+  margin: 0 auto 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
 }
 
 .question-options {
