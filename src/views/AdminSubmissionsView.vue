@@ -169,6 +169,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Eye, Paperclip } from 'lucide-vue-next'
 import api from '../utils/api'
+import { storageUrl } from '../utils/storage'
 
 const { t } = useI18n()
 
@@ -207,9 +208,6 @@ const filteredCourses = computed(() => {
   return courses.value.filter(c => c.teacher_id === Number(filters.value.teacher_id))
 })
 
-function storageUrl(path: string) {
-  return `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '')}/storage/${path.replace(/^public\//, '')}`
-}
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return '—'

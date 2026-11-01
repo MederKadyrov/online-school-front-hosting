@@ -184,8 +184,8 @@
                 <div class="resource-content">
                   <strong class="resource-label">{{ labelResource(r) }}</strong>
                   <div class="resource-meta">
-                    <span v-if="r.url"><LinkIcon :size="14" /> <a :href="r.url" target="_blank">{{ r.url }}</a></span>
-                    <span v-if="r.path"><Folder :size="14" /> {{ r.path }}</span>
+                    <span v-if="r.type === 'file' && r.path"><Folder :size="14" /> <a :href="storageUrl(r.path)" target="_blank">{{ r.path.split('/').pop() }}</a></span>
+                    <span v-else-if="r.url"><LinkIcon :size="14" /> <a :href="r.url" target="_blank">{{ r.url }}</a></span>
                     <span v-if="r.duration_sec"><Timer :size="14" /> {{ r.duration_sec }} сек</span>
                   </div>
 
@@ -598,6 +598,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { GripVertical, Pencil, Trash2, Paperclip, Link as LinkIcon, Folder, Timer, NotebookPen, Check, ImagePlus, X } from 'lucide-vue-next'
 import api from '../utils/api'
+import { storageUrl } from '../utils/storage'
 import draggable from 'vuedraggable'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
 
@@ -890,8 +891,6 @@ async function onReorderResources() {
 }
 
 // Задания
-function storageUrl(path:string){ return `${import.meta.env.VITE_API_BASE_URL?.replace('/api','')}/storage/${path.replace(/^public\//,'')}` }
-
 function closeAsg(){ asg.value.open=false }
 
 function pickAsgFile(e:any) {

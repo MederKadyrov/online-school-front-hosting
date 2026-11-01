@@ -173,6 +173,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Pencil, Paperclip } from 'lucide-vue-next'
 import api from '../utils/api'
+import { storageUrl } from '../utils/storage'
 
 const { t } = useI18n()
 
@@ -210,9 +211,6 @@ const gradedCount = computed(() =>
   submissions.value.filter(s => s.status === 'graded' || s.status === 'returned').length
 )
 
-function storageUrl(path: string) {
-  return `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '')}/storage/${path.replace(/^public\//, '')}`
-}
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return '—'

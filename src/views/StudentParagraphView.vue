@@ -230,6 +230,7 @@ import { useRoute, RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { Timer, RefreshCw, AlarmClock, Inbox, FileText, Paperclip, Calendar, NotebookPen, ArrowRight } from 'lucide-vue-next'
 import api from '../utils/api'
+import { storageUrl } from '../utils/storage'
 import { useBreadcrumb } from '../composables/useBreadcrumb'
 
 const route = useRoute()
@@ -274,10 +275,6 @@ const isFormDisabled = computed(() => {
   }
   return my.value.status === 'submitted' || my.value.status === 'returned'
 })
-
-function storageUrl(path: string) {
-  return `${import.meta.env.VITE_API_BASE_URL?.replace('/api', '')}/storage/${path.replace(/^public\//, '')}`
-}
 
 function pickFile(e: any) {
   answer.value.file = e.target.files?.[0] || null

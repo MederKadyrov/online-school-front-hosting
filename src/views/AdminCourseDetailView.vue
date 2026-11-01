@@ -109,8 +109,8 @@
                             <div class="resource-title">{{ resource.title }}</div>
                             <div class="resource-meta">
                               <span class="resource-type">{{ getResourceTypeLabel(resource.type) }}</span>
-                              <a v-if="resource.url" :href="resource.url" target="_blank" class="resource-link">{{ $t('courseDetail.openLink') }}</a>
-                              <span v-if="resource.path" class="resource-path">{{ resource.path }}</span>
+                              <a v-if="resource.type === 'file' && resource.path" :href="storageUrl(resource.path)" target="_blank" class="resource-link">{{ resource.path.split('/').pop() }}</a>
+                              <a v-else-if="resource.url" :href="resource.url" target="_blank" class="resource-link">{{ $t('courseDetail.openLink') }}</a>
                             </div>
                           </div>
                         </div>
@@ -135,7 +135,9 @@
                           <strong><Paperclip :size="14" /> {{ $t('courseDetail.attachedFiles') }}:</strong>
                           <div class="attachment-item">
                             <FileText class="attachment-icon" :size="16" />
-                            <span class="attachment-path">{{ paragraph.assignment.attachments_path }}</span>
+                            <a :href="storageUrl(paragraph.assignment.attachments_path)" target="_blank" class="resource-link">
+                              {{ paragraph.assignment.attachments_path.split('/').pop() }}
+                            </a>
                           </div>
                         </div>
 
@@ -249,6 +251,7 @@ import {
   type LucideIcon,
 } from 'lucide-vue-next'
 import api from '../utils/api'
+import { storageUrl } from '../utils/storage'
 
 const { t } = useI18n()
 const route = useRoute()
